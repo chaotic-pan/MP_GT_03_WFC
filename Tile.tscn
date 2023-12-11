@@ -7,3 +7,7 @@ offset_right = 50.0
 offset_bottom = 50.0
 color = Color(0.607843, 0.607843, 0.607843, 1)
 script = ExtResource("1_3t3e8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(25, 25)
+scale = Vector2(1.04167, 1.04167)

@@ -36,7 +36,7 @@ func _process(_delta):
 	
 
 func getLowestEntrophy():
-	var min = 4
+	var min = 13
 	var minTiles = []
 	
 	for x in range(10):
