@@ -2,6 +2,7 @@ extends Node2D
 var matrix=[]
 var rnd = RandomNumberGenerator.new()
 var finished = false
+var timer = 0.05
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -15,21 +16,24 @@ func _ready():
 			matrix[x][y].pos = Vector2(x,y)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if finished:
+func _process(_delta):
+	timer -= _delta
+	if finished || timer > 0:
 		return
+	timer = 0.05
 	var tile = getLowestEntrophy()
 	tile.collapse()
 	var x = tile.pos.x
 	var y = tile.pos.y
 	if x > 0:
-		propagation(tile, matrix[x-1][y])
+		propagation(tile.up, matrix[x-1][y])
 	if x < 9:
-		propagation(tile, matrix[x+1][y])
+		propagation(tile.down, matrix[x+1][y])
 	if y > 0:
-		propagation(tile, matrix[x][y-1])
+		propagation(tile.left, matrix[x][y-1])
 	if y < 9:
-		propagation(tile, matrix[x][y+1])
+		propagation(tile.right, matrix[x][y+1])
+	
 
 func getLowestEntrophy():
 	var min = 4
@@ -48,8 +52,7 @@ func getLowestEntrophy():
 		finished = true
 	return minTiles[rnd.randf_range(0, minTiles.size())]
 
-func propagation(tile, neighbor):
-	var connections = tile.neighbors
+func propagation(connections, neighbor):
 	var possible = neighbor.options
 	var newPoss = []
 	
